@@ -1,6 +1,8 @@
 package com.instagram.proxy.service
 
 import com.instagram.proxy.domain.model.TelegramMessage
+import com.instagram.proxy.domain.model.TelegramUser
+import com.instagram.proxy.domain.repository.UserRequestRepository
 import com.instagram.proxy.integration.dto.DownloadRequest
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -9,14 +11,14 @@ import java.io.File
 
 @Service
 class TelegramHandlerService(
-    // val instagramContentClient: InstagramContentClient,
     val instagramService: InstagramService,
-    @Value("\${minio.bucket-name}") val bucketName: String,
-    @Value("\${local.download:true}") val localDownload: Boolean,
+    val userRequestRepository: UserRequestRepository,
 ) {
-    fun handleIncomingMessage(telegramMessage: TelegramMessage): List<File> {
+    fun handleIncomingMessage(telegramMessage: TelegramMessage, sender: TelegramUser): List<File> {
         val watch = StopWatch()
         watch.start()
+
+        userRequestRepository.createRequest(sender, telegramMessage)
 
         var files: List<File> = emptyList()
         files = if (telegramMessage.text.contains("http")) {

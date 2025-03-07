@@ -26,8 +26,6 @@ import java.util.concurrent.atomic.AtomicInteger
 class InstagramService(
     @Value("\${instagram.login}") private val igLogin: String,
     @Value("\${instagram.password}") private val igPassword: String,
-    // private val minioClient: MinioClient,
-    @Value("\${minio.bucket-name}") private val bucketName: String
 ) {
     private val reelIndex = AtomicInteger(0)
     private val LOG = LoggerFactory.getLogger(InstagramService::class.java)
@@ -44,6 +42,8 @@ class InstagramService(
     }
 
     private fun initializeClient() {
+        println("igLogin: $igLogin")
+        println("igPassword: $igPassword")
         instagramClient = IGClient.builder()
             .username(igLogin)
             .password(igPassword)

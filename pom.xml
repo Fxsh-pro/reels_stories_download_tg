@@ -83,7 +83,7 @@
                             </excludes>
                         </database>
                         <target>
-                            <packageName>com.instargam.proxy.domain.db</packageName>
+                            <packageName>com.instagram.proxy.domain.db</packageName>
                             <directory>src/main/kotlin</directory>
                         </target>
                         <generate>

@@ -28,7 +28,6 @@ class TelegramBot(
     @Value("\${telegram.bot.token}") private val botToken: String,
     @Value("\${telegram.bot.name}") private val botName: String,
 ) : TelegramLongPollingBot(botToken) {
-
     @PostConstruct
     fun t() {
         println("Token : $botToken")
@@ -63,7 +62,7 @@ class TelegramBot(
             try {
                 var downloadedFiles: List<File>
                 val time = measureTimeMillis {
-                    downloadedFiles = telegramHandlerService.handleIncomingMessage(telegramMessage)
+                    downloadedFiles = telegramHandlerService.handleIncomingMessage(telegramMessage, sender)
                 }
                 if (downloadedFiles.isEmpty()) {
                     sendMessage(tgChatId.toString(), "No media files found for the provided URL.")
